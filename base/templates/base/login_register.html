@@ -17,8 +17,9 @@
     
     <form method="POST" action="" data-recaptcha="true" data-recaptcha-key="{{ RECAPTCHA_PUBLIC_KEY }}">
         {% csrf_token %}
-        {{ form.captcha }}
-
+{% if form.captcha %}
+    {{ form.captcha }}
+{% endif %}
         {% if form.non_field_errors %}
             <div class="alert alert-danger" style="color: #dc3545; margin-bottom: 20px; padding: 10px; border: 1px solid #f5c6cb; border-radius: 4px; background-color: #f8d7da;">
                 {% for error in form.non_field_errors %}
@@ -49,6 +50,17 @@
                 </div>
             {% endif %}
         </div>
+        <!-- Add the captcha field here -->
+        {% if form.captcha %}
+            <div class="form-login-single">
+                {{ form.captcha }}
+                {% if form.captcha.errors %}
+                    <div style="color: #dc3545; font-size: 0.875em; margin-top: 5px;">
+                        {{ form.captcha.errors.0 }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
         <input type="submit" value="Login"/>
     </form>
 </div>
@@ -66,8 +78,9 @@
 <div class="form-register">
     <form method="POST" action="" data-recaptcha="true" data-recaptcha-key="{{ RECAPTCHA_PUBLIC_KEY }}">
         {% csrf_token %}
-        {{ form.captcha }}
-
+{% if form.captcha %}
+    {{ form.captcha }}
+{% endif %}
         <center>
             <div class="form-register-single">
                 <div>
@@ -116,8 +129,8 @@
 </center>
 
 {% endif %}
-
-<script src="https://www.google.com/recaptcha/api.js?render={{ RECAPTCHA_PUBLIC_KEY }}" async defer></script>
+<script src="https://www.google.com/recaptcha/api.js?render={{ RECAPTCHA_PUBLIC_KEY }}"></script>
+{#<script src="https://www.google.com/recaptcha/api.js?render={{ RECAPTCHA_PUBLIC_KEY }}" async defer></script>#}
 <script src="{% static 'js/recaptcha.js' %}"></script>
 <script src="{% static 'js/pass_validation.js' %}"></script>
 

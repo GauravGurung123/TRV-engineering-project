@@ -143,9 +143,6 @@ def loginPage(request):
 
     if request.method == 'POST':
         form = LoginForm(request.POST)
-        print("Form valid:", form.is_valid())
-        print("Errors:", form.errors)
-
         if form.is_valid():
             email = request.POST.get('email', '').lower()
             password = request.POST.get('password', '')
@@ -173,17 +170,8 @@ def loginPage(request):
                     return redirect(request.GET.get('next') or 'home')
             else:
                 messages.error(request, 'Email OR password is incorrect')
-                form = None  # Don't show the form with reCAPTCHA error
-        else:
-            # Only show the error message if there are validation errors
-            if form.errors:
-                messages.error(request, 'Please correct the errors in the form.')
     else:
-        # Only create a new form for GET requests, without reCAPTCHA validation
-        form = LoginForm(initial={'captcha': ''})
-        form.fields['captcha'].widget.attrs.update({
-            'data-validate': 'false'  # Disable validation for initial page load
-        })
+        form = LoginForm()
 
     context = {
         'page': page,
@@ -191,7 +179,6 @@ def loginPage(request):
         'RECAPTCHA_PUBLIC_KEY': settings.RECAPTCHA_PUBLIC_KEY,
     }
     return render(request, 'base/login_register.html', context)
-
 @login_required(login_url='login')
 def two_factor_setup(request):
     user = request.user

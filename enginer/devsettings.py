@@ -38,10 +38,18 @@ GOOGLE_MAPS_API_KEY = 'dummy'
 
 # reCAPTCHA: use public test keys in dev
 # These are official Google reCAPTCHA v3 test keys.
-RECAPTCHA_PUBLIC_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
-RECAPTCHA_PRIVATE_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'
-RECAPTCHA_DEFAULT_ACTION = 'generic'
-RECAPTCHA_SCORE_THRESHOLD = 0.5
+# RECAPTCHA_PUBLIC_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
+# RECAPTCHA_PRIVATE_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'
+# RECAPTCHA_DEFAULT_ACTION = 'generic'
+# RECAPTCHA_SCORE_THRESHOLD = 0.5
+
+# reCAPTCHA v3 Configuration
+RECAPTCHA_PUBLIC_KEY = 'test-key'  # Replace with your v3 site key
+RECAPTCHA_PRIVATE_KEY = 'test-key'  # Replace with your v3 secret key
+RECAPTCHA_DEFAULT_ACTION = 'login'  # Or 'generic' if used in multiple places
+RECAPTCHA_SCORE_THRESHOLD = 0.5  # Adjust threshold as needed (0.0 to 1.0)
+RECAPTCHA_REQUIRED_SCORE = 0.5  # Same as threshold
+RECAPTCHA_VERIFY_REQUEST_TIMEOUT = 10  # seconds
 
 # Optional: relax CSP a bit for dev if needed (kept as in base for now)
 # Allow unpkg.com for scripts and styles in development so CDN assets like

@@ -13,17 +13,32 @@ class RegisterForm(forms.Form):
         )
     )
 
-
 class LoginForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Only add reCAPTCHA field if it's a POST request
-        if args and args[0] is not None:  # If there's POST data
-            self.fields['captcha'] = ReCaptchaField(
-                widget=ReCaptchaV3(
-                    action=getattr(settings, "RECAPTCHA_DEFAULT_ACTION", "generic")
-                )
-            )
+        # Always include the captcha field but only validate on POST
+        self.fields['captcha'] = ReCaptchaField(
+            widget=ReCaptchaV3(
+                action=getattr(settings, "RECAPTCHA_DEFAULT_ACTION", "login"),
+                api_params={
+                    'hl': 'en',  # Optional: set language
+                }
+            ),
+            error_messages={
+                'required': 'reCAPTCHA verification failed. Please try again.',
+                'invalid': 'Invalid reCAPTCHA. Please try again.'
+            },
+            required=False  # Make it not required by default
+        )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        # Only validate captcha on POST
+        if self.data:  # If there's POST data
+            captcha = cleaned_data.get('captcha')
+            if not captcha:
+                raise forms.ValidationError("reCAPTCHA verification failed. Please try again.")
+        return cleaned_data
 
 class TwoFactorVerifyForm(forms.Form):
     code = forms.CharField(

@@ -1,4 +1,5 @@
 {% extends 'main.html' %}
+{% load static %}
 {% block content %}
     <h2>Flight Booking</h2>
     <div class="form-trip-create-post">
@@ -28,40 +29,8 @@
         </form>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <script>
-        $(function() {
-            function setupAutocomplete(inputId) {
-                $(`#${inputId}`).autocomplete({
-                    source: function(request, response) {
-                        $.ajax({
-                            url: "{% url 'airport_autocomplete' %}",
-                            dataType: "json",
-                            data: {
-                                term: request.term
-                            },
-                            success: function(data) {
-                                response(data);
-                            },
-                            error: function() {
-                                response([]);
-                            }
-                        });
-                    },
-                    minLength: 2,
-                    select: function(event, ui) {
-                        $(this).val(ui.item.value);
-                    },
-                    open: function() {
-                        const ul = $(this).autocomplete("widget");
-                        ul.width($(this).outerWidth());
-                    }
-                });
-            }
-
-            setupAutocomplete('from');
-            setupAutocomplete('to');
-        });
-    </script>
+    <script src="{% static 'vendor/jquery/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'vendor/jquery-ui/jquery-ui-1.12.1.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'vendor/jquery-ui/jquery-ui-1.12.1.min.css' %}">
+    <script src="{% static 'js/flight_autocomplete.js' %}"></script>
 {% endblock %}

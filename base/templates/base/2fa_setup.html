@@ -23,9 +23,9 @@
             </div>
 
             {% if qr_data_uri %}
-                <img src="{{ qr_data_uri }}" alt="QR code" style="width:200px;height:200px; border-radius: 8px; background: #fff;">
+                <img src="{{ qr_data_uri }}" alt="QR code" class="qr-image">
             {% else %}
-                <p style="color:red;">QR code could not be generated.</p>
+                <p class="text-danger">QR code could not be generated.</p>
             {% endif %}
         </div>
 

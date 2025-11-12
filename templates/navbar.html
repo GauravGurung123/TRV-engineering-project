@@ -1,14 +1,14 @@
 {% load static %}
 
 <div class="navbar-container">
-    <div style="display: flex; align-items: center;">
-        <a href="/" style="margin-right: 20px; margin-left: 10px;">
+    <div class="d-flex align-center">
+        <a href="/" class="mr-20 ml-10">
             <img src="{% static 'images/home.svg' %}" alt="home">
         </a>
-        <a href="{% url 'list_trips' %}" style="margin-right: 20px; margin-left: 20px;">
+        <a href="{% url 'list_trips' %}" class="mr-20 ml-20">
             <img src="{% static 'images/notebook.svg' %}" alt="notebook">
         </a>
-        <a href="{% url 'search_flight' %}" style="margin-right: 20px; margin-left: 20px;">
+        <a href="{% url 'search_flight' %}" class="mr-20 ml-20">
             <img src="{% static 'images/airplane.svg' %}" alt="airplane">
         </a>
     </div>
@@ -16,10 +16,10 @@
     {% include 'searchbar.html' %}
     
     <div class="navbar-container-right">
-        <a href="{% url 'search_non_friends' %}" style="margin-right: 20px; margin-left: 20px;">
+        <a href="{% url 'search_non_friends' %}" class="mr-20 ml-20">
             <img src="{% static 'images/user-add.svg' %}" alt="user-add">
         </a>
-        <a href="{% url 'friend_chats' %}" style="margin-right: 20px; margin-left: 20px;">
+        <a href="{% url 'friend_chats' %}" class="mr-20 ml-20">
             <img src="{% static 'images/chat.svg' %}" alt="chat">
         </a>
         {% if request.user.is_authenticated %}
@@ -28,10 +28,10 @@
                 <a href="{% url 'user_profile' request.user.username %}"><img src="{{ request.user.avatar.url }}"/></a>
             </div>
             <div class="dropdown-content">
-                <div class="edit-user-button" style="margin-bottom: 10px;">
+                <div class="edit-user-button mb-10">
                     <a href="{% url 'edit_user' %}">Edit Profile</a>
                 </div>
-                <div class="logout-button" style="margin-top: 10px;">
+                <div class="logout-button mt-10">
                     <a href="{% url 'logout' %}">Logout</a>
                 </div>
             </div>

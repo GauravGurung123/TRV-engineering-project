@@ -10,6 +10,7 @@ production-leaning options to be friendlier for local development.
 """
 
 from .settings import *  # noqa
+import copy
 
 # Core dev flags
 DEBUG = True
@@ -43,4 +44,44 @@ RECAPTCHA_DEFAULT_ACTION = 'generic'
 RECAPTCHA_SCORE_THRESHOLD = 0.5
 
 # Optional: relax CSP a bit for dev if needed (kept as in base for now)
-# CONTENT_SECURITY_POLICY = CONTENT_SECURITY_POLICY
+# Allow unpkg.com for scripts and styles in development so CDN assets like
+# htmx, hyperscript, and swiper can load without CSP violations.
+# Production CSP remains strict as defined in base settings.
+try:
+    _base_csp = copy.deepcopy(CONTENT_SECURITY_POLICY)
+    _directives = _base_csp.get("DIRECTIVES", {})
+
+    def _extend(dir_name, *values):
+        current = tuple(_directives.get(dir_name, tuple()))
+        # Keep order stable and avoid duplicates
+        new = list(current)
+        for v in values:
+            if v not in new:
+                new.append(v)
+        _directives[dir_name] = tuple(new)
+
+    # Needed for <script src="https://unpkg.com/...">
+    _extend("script-src", "https://unpkg.com")
+    # Needed for <link rel="stylesheet" href="https://unpkg.com/...">
+    _extend("style-src", "https://unpkg.com")
+    # Allow Google Maps JavaScript API in development
+    _extend("script-src", "https://maps.googleapis.com")
+    _extend("connect-src", "https://maps.googleapis.com")
+
+    CONTENT_SECURITY_POLICY = {
+        "DIRECTIVES": _directives
+    }
+except Exception:
+    # If base CSP is missing for any reason, define a permissive dev CSP fallback
+    CONTENT_SECURITY_POLICY = {
+        "DIRECTIVES": {
+            "default-src": ("'self'",),
+            "script-src": ("'self'", "https://unpkg.com"),
+            "style-src": ("'self'", "https://fonts.googleapis.com", "https://unpkg.com"),
+            "font-src": ("'self'", "https://fonts.gstatic.com"),
+            "img-src": ("'self'", "data:"),
+            "frame-ancestors": ("'none'",),
+            "form-action": ("'self'",),
+            "object-src": ("'none'",),
+        }
+    }

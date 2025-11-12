@@ -7,21 +7,47 @@
 {% if page == 'login' %}
 
 <div class="form-login">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" style="color: #dc3545; margin-bottom: 20px; padding: 10px; border: 1px solid #f5c6cb; border-radius: 4px; background-color: #f8d7da;">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    
     <form method="POST" action="" data-recaptcha="true" data-recaptcha-key="{{ RECAPTCHA_PUBLIC_KEY }}">
         {% csrf_token %}
         {{ form.captcha }}
+
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger" style="color: #dc3545; margin-bottom: 20px; padding: 10px; border: 1px solid #f5c6cb; border-radius: 4px; background-color: #f8d7da;">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
 
         <div class="form-login-single">
             <div>
                 <h5><label>Email:</label></h5>
             </div>
-            <input type="text" name="email" placeholder="Email"/>
+            <input type="text" name="email" placeholder="Email" value="{{ form.email.value|default:'' }}" {% if form.email.errors %}style="border-color: #dc3545;"{% endif %}/>
+            {% if form.email.errors %}
+                <div style="color: #dc3545; font-size: 0.875em; margin-top: 5px;">
+                    {{ form.email.errors.0 }}
+                </div>
+            {% endif %}
         </div>
         <div class="form-login-single">
             <div>
                 <h5><label>Password:</label></h5>
             </div>
-            <input type="password" name="password" placeholder="Password"/>
+            <input type="password" name="password" placeholder="Password" {% if form.password.errors %}style="border-color: #dc3545;"{% endif %}/>
+            {% if form.password.errors %}
+                <div style="color: #dc3545; font-size: 0.875em; margin-top: 5px;">
+                    {{ form.password.errors.0 }}
+                </div>
+            {% endif %}
         </div>
         <input type="submit" value="Login"/>
     </form>
@@ -63,7 +89,7 @@
                 </div>
                 <input type="password" name="password" id="id_password" placeholder="Password"/>
             </center>
-            <ul id="password-rules" style="margin-top: 6px; font-size: 0.85rem; line-height: 1.3;">
+            <ul id="password-rules" class="password-rules">
                 <li data-rule="length">min. 9 characters</li>
                 <li data-rule="upper">at least 1 uppercase letter (A–Z)</li>
                 <li data-rule="lower">at least 1 lowercase letter (a–z)</li>
@@ -91,7 +117,7 @@
 
 {% endif %}
 
-<script src="https://www.google.com/recaptcha/api.js?render={{ RECAPTCHA_PUBLIC_KEY }}"></script>
+<script src="https://www.google.com/recaptcha/api.js?render={{ RECAPTCHA_PUBLIC_KEY }}" async defer></script>
 <script src="{% static 'js/recaptcha.js' %}"></script>
 <script src="{% static 'js/pass_validation.js' %}"></script>
 

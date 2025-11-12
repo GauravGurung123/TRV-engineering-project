@@ -13,6 +13,41 @@ a{
     color: black;
 }
 
+/* Utility layout classes to avoid inline styles (CSP-friendly) */
+.d-flex { display: flex; }
+.align-center { align-items: center; }
+.mr-20 { margin-right: 20px; }
+.ml-10 { margin-left: 10px; }
+.ml-20 { margin-left: 20px; }
+.mb-10 { margin-bottom: 10px; }
+.mt-05 { margin-top: 0.5rem; }
+.mt-10 { margin-top: 10px; }
+.mt-15 { margin-top: 15px; }
+.inline-block { display: inline-block; }
+.hidden-input { display: none; }
+.map-container { height: 400px; width: 100%; margin-top: 20px; }
+.btn-danger { background: #c0392b; }
+.text-danger { color: red; }
+.password-rules { margin-top: 6px; font-size: 0.85rem; line-height: 1.3; }
+
+/* Chat animation moved from inline <style> */
+@keyframes fadeInAndUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.fade-in-up { animation: fadeInAndUp 0.6s ease; }
+
+/* Flight search results styling (moved from inline <style>) */
+.result-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.segment-info { margin-bottom: 10px; }
+.price { font-size: 1.5em; color: #007bff; font-weight: bold; }
+
 hr{
     border: 1px solid black;
 }

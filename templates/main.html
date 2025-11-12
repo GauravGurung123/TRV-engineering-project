@@ -9,10 +9,10 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@200;400;600;900&display=swap" rel="stylesheet">
         <meta name='viewport' content='width=device-width, initial-scale=1'>
-        <script src="https://unpkg.com/htmx.org@2.0.3"></script>
-        <script src="https://unpkg.com/hyperscript.org@0.9.13"></script>
-        <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
-        <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+        <script src="{% static 'vendor/htmx/htmx-2.0.3.min.js' %}"></script>
+        <script src="{% static 'vendor/hyperscript/_hyperscript-0.9.13.min.js' %}"></script>
+        <link rel="stylesheet" href="{% static 'vendor/swiper/swiper-bundle.min.css' %}">
+        <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
         <link rel='stylesheet' type='text/css' media='screen' href="{% static 'styles/main.css' %}?v=1.0">
         <link rel='stylesheet' type='text/css' media='screen' href="{% static 'styles/form.css' %}?v=1.0">
         <link rel='stylesheet' type='text/css' media='screen' href="{% static 'styles/searchbar.css' %}?v=1.0">
@@ -21,6 +21,7 @@
         <link rel='stylesheet' type='text/css' media='screen' href="{% static 'styles/edit-profile.css' %}?v=1.0">
         <link rel='stylesheet' type='text/css' media='screen' href="{% static 'styles/chat.css' %}?v=1.0">
         <link rel='stylesheet' type='text/css' media='screen' href="{% static 'styles/trip_planner.css' %}?v=1.0">
+        {% block extra_head %}{% endblock %}
     </head>
 
     <body>

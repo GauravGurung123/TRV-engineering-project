@@ -15,11 +15,15 @@ class RegisterForm(forms.Form):
 
 
 class LoginForm(forms.Form):
-    captcha = ReCaptchaField(
-        widget=ReCaptchaV3(
-            action=getattr(settings, "RECAPTCHA_DEFAULT_ACTION", "generic")
-        )
-    )
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Only add reCAPTCHA field if it's a POST request
+        if args and args[0] is not None:  # If there's POST data
+            self.fields['captcha'] = ReCaptchaField(
+                widget=ReCaptchaV3(
+                    action=getattr(settings, "RECAPTCHA_DEFAULT_ACTION", "generic")
+                )
+            )
 
 class TwoFactorVerifyForm(forms.Form):
     code = forms.CharField(

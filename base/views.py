@@ -137,7 +137,6 @@ def remove_friend(request, user_id):
 
 def loginPage(request):
     page = 'login'
-    form = LoginForm()
 
     if request.user.is_authenticated:
         return redirect('home')
@@ -174,8 +173,17 @@ def loginPage(request):
                     return redirect(request.GET.get('next') or 'home')
             else:
                 messages.error(request, 'Email OR password is incorrect')
+                form = None  # Don't show the form with reCAPTCHA error
         else:
-            messages.error(request, 'Please correct the errors in the form.')
+            # Only show the error message if there are validation errors
+            if form.errors:
+                messages.error(request, 'Please correct the errors in the form.')
+    else:
+        # Only create a new form for GET requests, without reCAPTCHA validation
+        form = LoginForm(initial={'captcha': ''})
+        form.fields['captcha'].widget.attrs.update({
+            'data-validate': 'false'  # Disable validation for initial page load
+        })
 
     context = {
         'page': page,
